@@ -1,6 +1,3 @@
-# Create execute file here that will contians the logic to execute database queries
-# 
-
 from sqlalchemy import (
     Table, Column, Text, String, ForeignKey, DateTime, MetaData, func
 )
