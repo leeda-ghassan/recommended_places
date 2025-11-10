@@ -5,6 +5,8 @@ from sqlalchemy import (
     Table, Column, Text, String, ForeignKey, DateTime, MetaData, func
 )
 from sqlalchemy.dialects.postgresql import UUID
+from src.database.connection import engine
+
 
 metadata = MetaData()
 
@@ -54,3 +56,31 @@ favorites = Table(
     Column("created_at", DateTime, server_default=func.now()),
     Column("updated_at", DateTime, server_default=func.now()),
 )
+
+class DBClient: #added this for the users queries
+    def __init__(self, engine_instance=None):
+        self.engine = engine_instance or engine
+
+    def execute_one(self, stmt):
+        with self.engine.connect() as conn:
+            res = conn.execute(stmt)
+            try:
+                return res.mappings().first()
+            except Exception:
+                return res.first()
+
+    def execute_all(self, stmt):
+        with self.engine.connect() as conn:
+            res = conn.execute(stmt)
+            try:
+                return res.mappings().all()
+            except Exception:
+                return res.fetchall()
+
+    def execute_commit(self, stmt):
+        with self.engine.begin() as conn:
+            res = conn.execute(stmt)
+            try:
+                return res.mappings().first()
+            except Exception:
+                return res.first()

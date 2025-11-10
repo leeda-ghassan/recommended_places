@@ -1,6 +1,4 @@
-from sqlalchemy import (
-    Table, Column, Text, String, ForeignKey, DateTime, MetaData, func
-)
+from sqlalchemy import (Table, Column, Text, ForeignKey, DateTime, MetaData, func)
 from sqlalchemy.dialects.postgresql import UUID
 
 metadata = MetaData()
@@ -15,7 +13,7 @@ users = Table(
     Column("created_at", DateTime, server_default=func.now()),
     Column("updated_at", DateTime, server_default=func.now()),
 )
-
+ 
 places = Table(
     "places",
     metadata,
@@ -51,3 +49,4 @@ favorites = Table(
     Column("created_at", DateTime, server_default=func.now()),
     Column("updated_at", DateTime, server_default=func.now()),
 )
+
